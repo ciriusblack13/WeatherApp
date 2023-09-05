@@ -16,7 +16,7 @@ display: flex;
 export const LeftSide = styled.div`
 display: flex;
   flex-direction: column;
-  align-item: center;
+  align-items: center;
   margin-right: 20px;
 
   @media (min-width: 720px) {

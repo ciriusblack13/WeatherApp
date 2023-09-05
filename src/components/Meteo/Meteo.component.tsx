@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { getWeatherData, getBackgroundImage } from './services/Meteo.services';
 import LargeWidget from '../LargeWidget/LargeWidget';
 import SmallWidget from '../SmallWidget/SmallWidget'
@@ -8,7 +8,6 @@ import { getDtWeather, closeOtherCards, changeVisibility, isWeatherListVisible }
 import { WeatherProps } from './Meteo.d'
 
 const Meteo = () => {
-  const [name, setName] = useState<string>('');
   const [weatherList, setWeatherList] = useState<WeatherProps[]>([]);
   const [filteredWeather, setFilteredWeather] = useState<WeatherProps[]>([]);
   const [filteredValue] = useState<string>('8:00');
@@ -23,11 +22,24 @@ const Meteo = () => {
 
 
   // Reucpero dei dati
-  const getWeather = async () => {
+  // const getWeather = async () => {
+  //   try {
+  //     const data = await getWeatherData(cityName);
+  //     if (data && data.city.name) {
+  //       setWeatherList(getDtWeather(data.list, cityName));
+  //       setNotFound(false);
+  //     } else {
+  //       setNotFound(true);
+  //     }
+  //   } catch (error) {
+  //     setNotFound(true);
+  //   }
+  // };
+
+  const getWeather = useCallback(async () => {
     try {
       const data = await getWeatherData(cityName);
       if (data && data.city.name) {
-        setName(data.city.name);
         setWeatherList(getDtWeather(data.list, cityName));
         setNotFound(false);
       } else {
@@ -36,16 +48,17 @@ const Meteo = () => {
     } catch (error) {
       setNotFound(true);
     }
-  };
+  }, [cityName]);
+  
 
-  const getBackground = async (city: string) => {
+  const getBackground = useCallback(async (city: string) => {
     try {
-      const response = await getBackgroundImage(cityName);
+      const response = await getBackgroundImage(city);
       setBackground(response);
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [setBackground]);
 
   // Gestione interazioni
   const handleCloseOtherCards = (indexFilteredWeather: number) => {
@@ -106,7 +119,7 @@ const Meteo = () => {
   useEffect(() => {
     getWeather();
     getBackground(cityName);
-  }, [cityName]);
+  }, [cityName, getBackground, getWeather]);
   
   useEffect(() => {
     const filteredWeatherList = weatherList.filter(
@@ -155,10 +168,3 @@ const Meteo = () => {
 }
 
 export default Meteo;
-
-
-// Tutte le funzioni vanno su un file helper
-// Fixare CSS e nomi componenti
-// Fixare funzioni dei componenti
-// Fixare struttura componenti
-// Organizzare componenti in proprie cartelle con i propri file styledComponent

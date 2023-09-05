@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 export const MiniCard = styled.div`
   background: rgba(299, 299, 299, 0.2);

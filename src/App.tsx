@@ -1,4 +1,3 @@
-import React from 'react';
 import './App.css';
 import Meteo from './components/Meteo/Meteo.component';
 

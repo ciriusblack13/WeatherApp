@@ -20,22 +20,6 @@ const Meteo = () => {
   const [background, setBackground] = useState<string>('');
   const [visibility, setVisibility] = useState<number>(0);
 
-
-  // Reucpero dei dati
-  // const getWeather = async () => {
-  //   try {
-  //     const data = await getWeatherData(cityName);
-  //     if (data && data.city.name) {
-  //       setWeatherList(getDtWeather(data.list, cityName));
-  //       setNotFound(false);
-  //     } else {
-  //       setNotFound(true);
-  //     }
-  //   } catch (error) {
-  //     setNotFound(true);
-  //   }
-  // };
-
   const getWeather = useCallback(async () => {
     try {
       const data = await getWeatherData(cityName);
